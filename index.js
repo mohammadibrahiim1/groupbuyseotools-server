@@ -2,6 +2,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
+const todoHandler = require("./routesHandler/todoHandler");
+
 // require dotenv
 require("dotenv").config();
 
@@ -18,6 +20,8 @@ mongoose
   .catch((error) => console.log(error));
 
 // application routes
+
+app.use("/todo", todoHandler);
 
 // default error handler
 function errorHandler(err, req, res, next) {
@@ -48,38 +52,6 @@ app.listen(5000, () => {
 
 async function run() {
   try {
-    //   .where("name")
-    //   .equals("munna")
-    //   .populate("bestFriend")
-    //   .limit(1)
-    //   .select("age");
-    // user[0].bestFriend = "64a85a7fbf3c9f651176521c";
-    // await user.save();
-    // const user = await user.findOne({
-    //   name: "munna",
-    // });
-    // console.log(user.namedEmail);
-    // await user.save();
-    // user.sayHi();
-    // const user = await User.create({
-    //   name: "munna",
-    //   age: "25",
-    //   email: "Test@te.com",
-    //   hobbies: ["cricket, football,racing"],
-    //   address: {
-    //     street: "Main St",
-    //   },
-    // });
-    // user.createdAt = 5;
-    // await user.save().then(() => console.log("user saved"));
-    // console.log(user);
-    // Connect the client to the server	(optional starting in v4.7)
-    // await client.connect();
-    // Send a ping to confirm a successful connection
-    // await client.db("admin").command({ ping: 1 });
-    // console.log(
-    //   "Pinged your deployment. You successfully connected to MongoDB!"
-    // );
   } finally {
   }
 }
