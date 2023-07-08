@@ -5,14 +5,13 @@ const router = express.Router();
 const todoSchema = require("../schemas/todoSchemas");
 const collectionName = "allTodo";
 const Todo = new mongoose.model("Todo", todoSchema, collectionName);
-console.log(Todo);
+// console.log(Todo);
 
-// get all todos
-router.get("/", async (req, res) => {
+// get active  todo
+router.get("/active", async (req, res) => {
   try {
-    const data = await Todo.find({
-      status: "active",
-    });
+    const todo = new Todo();
+    const data = await todo.findActive();
     res.status(200).json({
       result: data,
       message: "success",
@@ -22,41 +21,10 @@ router.get("/", async (req, res) => {
       error: "there was a server side error",
     });
   }
-
-  // .select({
-  //   _id: 0,
-  //   //   title: 1,
-  //   date: 0,
-  //   __v: 0,
-  // })
-  // .limit(2)
-  // .then((allTodo) => {
-  //   if (allTodo) {
-  //     console.log("allTodo", allTodo);
-  //   } else {
-  //     console.log("not found");
-  //   }
-  //   console.log("get all todos successfully");
-  // })
-  // .catch((error) => console.log(error));
 });
 
-// get a todo by id
-router.get("/:id", async (req, res) => {
-  await Todo.find({
-    _id: req.params.id,
-  })
-    .then((getOne) => {
-      if (getOne) {
-        console.log("findOne");
-      } else {
-        console.log("not found");
-      }
-      console.log("data", getOne);
-    })
-    .catch((error) => console.log("server side error"));
-  res.send(getOne);
-});
+// get a todo by callback
+
 // post todo
 router.post("/", async (req, res) => {
   const newTodo = new Todo(req.body);
@@ -132,8 +100,8 @@ router.delete("/:id", async (req, res) => {
     .catch((error) => console.log(error));
 });
 
-router.get("/", (req, res) => {
-  res.send("Hello World");
-});
+// router.get("/", (req, res) => {
+//   res.send("Hello World");
+// });
 
 module.exports = router;

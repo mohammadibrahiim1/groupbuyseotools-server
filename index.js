@@ -5,7 +5,6 @@ const app = express();
 const cors = require("cors");
 
 const todoHandler = require("./routesHandler/todoHandler");
-const router = require("./routesHandler/todoHandler");
 
 // require dotenv
 require("dotenv").config();

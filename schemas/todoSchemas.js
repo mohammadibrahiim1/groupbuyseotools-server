@@ -15,5 +15,9 @@ const todoSchema = mongoose.Schema({
     default: Date.now,
   },
 });
-
+todoSchema.methods = {
+  findActive: function () {
+    return mongoose.model("Todo").find({ status: "inactive" });
+  },
+};
 module.exports = todoSchema;
