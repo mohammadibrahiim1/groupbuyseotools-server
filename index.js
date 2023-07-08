@@ -11,13 +11,15 @@ require("dotenv").config();
 const app = express();
 app.use(express.json());
 
+const port = process.env.PORT || 5000;
+
 // database connection with mongoose
 mongoose
   .connect(
     `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.wuwpwwx.mongodb.net/?retryWrites=true&w=majority`
   )
-  .then(() => console.log("successfully connected"))
-  .catch((error) => console.log(error));
+  .then(() => console.log("successfully connected to MongoDB"))
+  .catch((error) => console.log("Error connecting to MongoDb", error));
 
 // application routes
 
@@ -31,8 +33,8 @@ function errorHandler(err, req, res, next) {
   res.status(500).json({ error: err });
 }
 
-app.listen(5000, () => {
-  console.log("app listening at port 5000");
+app.listen(port, () => {
+  console.log(`Server is running on ${port}`);
 });
 
 // console.log(dbConnect);
