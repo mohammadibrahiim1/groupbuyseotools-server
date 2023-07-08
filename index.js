@@ -1,14 +1,18 @@
 // getting-started.js
 const express = require("express");
 const mongoose = require("mongoose");
+const app = express();
+const cors = require("cors");
 
 const todoHandler = require("./routesHandler/todoHandler");
+const router = require("./routesHandler/todoHandler");
 
 // require dotenv
 require("dotenv").config();
 
 // express app initialization
-const app = express();
+
+app.use(cors());
 app.use(express.json());
 
 const port = process.env.PORT || 5000;
@@ -24,14 +28,19 @@ mongoose
 // application routes
 
 app.use("/todo", todoHandler);
+// app.use("/", router);
 
 // default error handler
-function errorHandler(err, req, res, next) {
-  if (res.headersSent) {
-    return next(err);
-  }
-  res.status(500).json({ error: err });
-}
+// function errorHandler(err, req, res, next) {
+//   if (res.headersSent) {
+//     return next(err);
+//   }
+//   res.status(500).json({ error: err });
+// }
+
+app.get("/", (req, res) => {
+  res.send("Simple node server running");
+});
 
 app.listen(port, () => {
   console.log(`Server is running on ${port}`);

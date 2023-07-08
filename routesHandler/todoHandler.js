@@ -9,25 +9,36 @@ console.log(Todo);
 
 // get all todos
 router.get("/", async (req, res) => {
-  await Todo.find({
-    status: "active",
-  })
-    .select({
-      _id: 0,
-      //   title: 1,
-      date: 0,
-      __v: 0,
-    })
-    .limit(2)
-    .then((allTodo) => {
-      if (allTodo) {
-        console.log("allTodo", allTodo);
-      } else {
-        console.log("not found");
-      }
-      console.log("get all todos successfully");
-    })
-    .catch((error) => console.log(error));
+  try {
+    const data = await Todo.find({
+      status: "active",
+    });
+    res.status(200).json({
+      result: data,
+      message: "success",
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "there was a server side error",
+    });
+  }
+
+  // .select({
+  //   _id: 0,
+  //   //   title: 1,
+  //   date: 0,
+  //   __v: 0,
+  // })
+  // .limit(2)
+  // .then((allTodo) => {
+  //   if (allTodo) {
+  //     console.log("allTodo", allTodo);
+  //   } else {
+  //     console.log("not found");
+  //   }
+  //   console.log("get all todos successfully");
+  // })
+  // .catch((error) => console.log(error));
 });
 
 // get a todo by id
