@@ -30,11 +30,20 @@ const client = new MongoClient(uri, {
 
 async function run() {
   const usersCollection = client.db("seo-tools").collection("users");
+  const toolsCollection = client.db("seo-tools").collection("tools");
   try {
     // post user data in mongodb database
     app.post("/users", async (req, res) => {
       const users = req.body;
       const result = await usersCollection.insertOne(users);
+      res.send(result);
+    });
+
+    // get all tools
+    app.get("/tools", async (req, res) => {
+      const query = {};
+      const cursor = toolsCollection.find(query);
+      const result = await cursor.toArray();
       res.send(result);
     });
   } finally {
