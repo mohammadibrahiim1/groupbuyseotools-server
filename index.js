@@ -1,6 +1,6 @@
 // getting-started.js
 const express = require("express");
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 const app = express();
 const cors = require("cors");
 const { MongoClient, ServerApiVersion } = require("mongodb");
@@ -17,7 +17,21 @@ app.use(express.json());
 
 const port = process.env.PORT || 5000;
 
+// const { MongoClient, ServerApiVersion } = require('mongodb');
+// const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.wuwpwwx.mongodb.net/?retryWrites=true&w=majority`;
+// console.log(uri);
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+// const client = new MongoClient(uri, {
+//   serverApi: {
+//     version: ServerApiVersion.v1,
+//     strict: true,
+//     deprecationErrors: true,
+//   }
+// });
+
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.wuwpwwx.mongodb.net/?retryWrites=true&w=majority`;
+console.log(uri);
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -32,6 +46,7 @@ async function run() {
   const usersCollection = client.db("seo-tools").collection("users");
   const toolsCollection = client.db("seo-tools").collection("tools");
   try {
+    await client.connect();
     // post user data in mongodb database
     app.post("/users", async (req, res) => {
       const users = req.body;
@@ -44,6 +59,7 @@ async function run() {
       const query = {};
       const cursor = toolsCollection.find(query);
       const result = await cursor.toArray();
+      console.log(result);
       res.send(result);
     });
   } finally {
